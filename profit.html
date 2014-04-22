@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en" ng-app>
+<head>
+	<meta charset="UTF-8">
+	<title>Profit Calculator</title>
+	<link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+	<div class="row">
+		<div class="col-lg-12" ng-controller="ProfitCtrl">
+			<h2>Sales</h2>
+			<p>Sales per square foot will vary from location to location and from store owner to storeowner based on many factors. The size of the community, general customer traffic of the shopping center, store location, proximity to the anchor, previous business ownership, management and merchandising experience of the owner, and personal daily involvement of the store owner are just a few examples of the variables that will determine your level of sales. The business skill and experience of each owner, along with the level of involvement in and commitment to their store will have an impact on their success.</p>
+			<h2>Variable Costs</h2>
+			<p><em>Variable costs are dependent on sales.  They are driven entirely by the amount of sales you are doing and are represented as a precentage of your sales.</em></p>
+			<table class="table table-striped">
+				<thead>
+					<th>Cost Category</th>
+					<th>Description</th>
+					<th>Average Range</th>
+					<th>My Estimated Cost</th>
+				</thead>
+				<tbody>
+					<tr ng-repeat="cost in varCosts">
+						<td>{{cost.title}}</td>
+						<td>{{cost.description}}</td>
+						<td>{{cost.suggestion}}</td>
+						<td><input type="number" class="form-control" ng-model="cost.value" required ></td>
+					</tr>
+					<tr>
+						<td><strong>Total Variable Costs</strong></td>
+						<td></td>
+						<td></td>
+						<td><h3>{{sumVariable()}}</h3></td>
+					</tr>
+				</tbody>
+			</table>
+<h2>Fixed Costs</h2>
+<p><em>Fixed costs are costs which remain the same from month to month and are independent of sales.  Fixed costs include rent and utilities.</em></p>
+						<table class="table table-striped">
+				<thead>
+					<th>Cost Category</th>
+					<th>Description</th>
+					<th>Average Range</th>
+					<th>My Estimated Cost</th>
+				</thead>
+				<tbody>
+					<tr ng-repeat="cost in fixedCosts">
+						<td>{{cost.title}}</td>
+						<td>{{cost.description}}</td>
+						<td>{{cost.suggestion}}</td>
+						<td><input type="number" class="form-control" ng-model="cost.value" required ></td>
+					</tr>
+					<tr>
+						<td><strong>Total Variable Costs</strong></td>
+						<td></td>
+						<td></td>
+						<td><h3>{{sumFixed()| currency}}</h3></td>
+					</tr>
+				</tbody>
+			</table>
+			<h2>Store Performance</h2>
+			<p><em>Using the assumed store costs above the following chart projects the amount of sales you would need to do in order to make a given profit level.</em></p>
+			<table class="table table-striped">
+				<tr>
+					<th>Profit Percentage</th>
+					<th>Profit in Dollars</th>
+					<th>Sales Required Per Year</th>
+					<th>Sales Required Per Day</th>
+					<th>Sales Required Per Hour</th>
+				</tr>
+				<tr>
+					<td>Break Even</td>
+					<td>{{profitData(0).dollars| currency}}</td>
+					<td>{{profitData(0).year| currency}}</td>
+					<td>{{profitData(0).day| currency}}</td>
+					<td>{{profitData(0).hour| currency}}</td>
+				</tr>
+				<tr>
+					<td>5%</td>
+					<td></td>
+					<td>{{profitData(.05).year| currency}}</td>
+					<td>{{profitData(.05).day| currency}}</td>
+					<td>{{profitData(.05).hour| currency}}</td>
+				</tr>
+				<tr>
+					<td>10%</td>
+					<td></td>
+					<td>{{profitData(.1).year| currency}}</td>
+					<td>{{profitData(.1).day| currency}}</td>
+					<td>{{profitData(.1).hour| currency}}</td>
+				</tr>
+				<tr>
+					<td>15%</td>
+					<td></td>
+					<td>{{profitData(.15).year| currency}}</td>
+					<td>{{profitData(.15).day| currency}}</td>
+					<td>{{profitData(.15).hour| currency}}</td>
+				</tr>
+				<tr>
+					<td>20%</td>
+					<td></td>
+					<td>{{profitData(.2).year| currency}}</td>
+					<td>{{profitData(.2).day| currency}}</td>
+					<td>{{profitData(.2).hour| currency}}</td>
+				</tr>
+				<tr>
+					<td>25%</td>
+					<td></td>
+					<td>{{profitData(.25).year| currency}}</td>
+					<td>{{profitData(.25).day| currency}}</td>
+					<td>{{profitData(.25).hour| currency}}</td>
+				</tr>
+				<tr>
+					<td>30%</td>
+					<td></td>
+					<td>{{profitData(.3).year| currency}}</td>
+					<td>{{profitData(.3).day| currency}}</td>
+					<td>{{profitData(.3).hour| currency}}</td>
+				</tr>
+			</table>
+			
+
+		</div>
+	</div>
+</div>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script>
+<script>
+function ProfitCtrl($scope) {
+  $scope.varCosts = [
+    {title:'Merchandise', value:52,description:"Store-owners will control their average cost of merchandise based on the suppliers they purchase from and the product mix they decide to put in the store. The average a cost of the merchandise orders we create to open most stores is typically between fifty-two and fifty-five cents per item on a store-wide basis. (Opening store orders take into account the geographical location of each store and freight and delivery time considerations, and are placed with the suppliers best situated to provide economical, timely stock replenishment. This helps each store a identify a group of suppliers best suited to serve them as they go forward.) Keep in mind that the average cost of merchandise for some departments runs at a higher average cost. For example, liquid Health and Beauty Aids (HBA) cost in the range of sixty-two to seventy-three cents per item, and jewelry costs range from thirty-five to fifty cents. If a store-owner decides to put a higher percentage of HBA in the store than we originally recommended, their average cost on a store wide basis will be higher.", suggestion:"52%-55%"},
+    {title:'Wages', value:10,description:"Each client should strive to keep labor cost, including that of the owner and manager, in the range of 10 to not more than 13 percent of sales.", suggestion:"10%-13%"},
+    {title:'Payroll Tax', value:1,description:"Employer paid payroll taxes.", suggestion:"1%-1.6%"},
+    {title:'Workers Compensation', value:.25,description:"Workers Compensation, check with your state to find your rates.", suggestion:".25%-.5%"},
+    {title:'Freight', value:3,description:"This is usually discussed in terms of freight cost as a percentage of merchandise purchased. The store owner should try to keep the range of freight cost to merchandise purchased between 3 and 5 percent. Stores that are located in states where the population density is lower, such as Montana, Wyoming, Idaho, and North Dakota may realize slightly higher costs due to the infrequency of truck routes.", suggestion:"3%-5%"},
+    ];
+   $scope.fixedCosts = [
+    {title:'Rent', value:20000,description:"Location rent set by the lease agreement.Local realtors will give you a good idea of the cost range.", suggestion:"$11,000-$19000"},
+    {title:'Manager or Owners Salary', value:0,description:"Salary paid to Manager or to yourself as the owner.", suggestion:"$20,000"},
+    {title:'Health Insurance', value:100,description:"Health insurance for your store manager.", suggestion:"$100"},
+    {title:'Business Insurance', value:1200,description:"General business coverage and includes public liability, fixed articles, theft, and other coverage. Contact a local insurance agent for quotes.", suggestion:"$1,200-$1,600"},
+    {title:'Electric Utilities', value:1300,description:"The local power company can give you estimates of electric cost for retail establishments by square foot.", suggestion:"$1,300-$1,600"},
+    {title:'Telephone/Internet Utilities', value:500,description:"Your local phone company will give you insight into this nominal cost.", suggestion:"$500-$700"},
+    {title:'Personnel', value:700,description:"This typically includes items such as pizzas once a month and a year end party. Determine what you would like to do for your employees.", suggestion:"$700-$1300"},
+    {title:'Supplies', value:9000,description:"Office and store supplies. Pens, tape, paper, printer cartridges, and like items.", suggestion:"$$600-1,000"},
+    {title:'Advertising', value:600,description:"Routine advertising is always recommended to keep your store in front of the public. The local newspaper will provide various rates and programs.", suggestion:"$1,000-$1,800"},
+    {title:'Depreciation', value:1000,description:"Periodic write-off of capital cost items. Your local accountant can provide further information.", suggestion:"$3,000-$5,800"},
+    {title:'Other Expenses', value:100,description:"Catch-all for other costs that pertain to your business operation.", suggestion:"$100-$300"},
+    ];
+  $scope.sumVariable = function() {
+    var costs = $scope.varCosts;
+    var total=0;
+    _.each(costs,function(cost){
+        total = cost.value + total;
+    });
+  return total;
+  };
+   $scope.sumFixed = function() {
+    var costs = $scope.fixedCosts;
+    var total=0;
+    _.each(costs,function(cost){
+        total = cost.value + total;
+    });
+  return total;
+  };
+  $scope.calculateProfit = function() {
+  	var calc;
+    return 5;
+  };
+  $scope.profitData = function(profitPercentage) {
+  	var contributionMargin = 1 - ($scope.sumVariable()/100 + profitPercentage);
+    var breakEven = $scope.sumFixed()/contributionMargin;
+  	var profitDollars = breakEven -(breakEven * ($scope.sumVariable()/100) + $scope.sumFixed());
+  	var data = {
+  		    dollars: profitDollars,
+  			year: breakEven,
+  			day: breakEven/360,
+  			hour: breakEven/(360*24)
+  	}
+     return data;
+  };
+  
+  };
+
+</script>
+</body>
+</html>
