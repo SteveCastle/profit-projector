@@ -9,6 +9,11 @@
 <div class="container">
 	<div class="row">
 		<div class="col-lg-12" ng-controller="ProfitCtrl">
+			<p><em>Our Dollar store owners offer their customers merchandise of exceptional value at a very low fixed price. This low price point creates an impulse shopping experience. We hear comments daily from prospective clients, like yourself, about their experience in shopping dollar stores and how they go into a new store to investigate and leave having spent forty to seventy dollars . The combination of exceptional value at incredibly low prices have made Dollar Stores the fastest growing retail segment in recent years. Profitability, of course, depends on many variables. The location, the cost and variety of merchandise, and the management skill of the owner are just a few of the many factors that will ultimately determine the level of profit.</em></p>
+			<h2>Profit Projection Worksheet</h2>
+			<p>Your net profit is calculated by subtracting your total costs from your sales. Before you open a business we can help you estimate the costs you will incur running your business, this will allow you to project the sales volume you will require and make good decisions regarding the location and size of your store to ensure your success.</p>
+
+<p>You can use the worksheet below to project the level of sales your store would need to reach to achieve a range of profit levels. If you have any questions one of our representatives would be happy to help you work through the process.</p>
 			<h2>Sales</h2>
 			<p>Sales per square foot will vary from location to location and from store owner to storeowner based on many factors. The size of the community, general customer traffic of the shopping center, store location, proximity to the anchor, previous business ownership, management and merchandising experience of the owner, and personal daily involvement of the store owner are just a few examples of the variables that will determine your level of sales. The business skill and experience of each owner, along with the level of involvement in and commitment to their store will have an impact on their success.</p>
 			<h2>Variable Costs</h2>
@@ -25,13 +30,18 @@
 						<td>{{cost.title}}</td>
 						<td>{{cost.description}}</td>
 						<td>{{cost.suggestion}}</td>
-						<td><input type="number" class="form-control" ng-model="cost.value" required ></td>
+						<td>
+							<div class="input-group">
+							<input type="number" class="form-control" ng-model="cost.value" required >
+							<span class="input-group-addon">%</span>
+						    </div>
+						</td>
 					</tr>
 					<tr>
 						<td><strong>Total Variable Costs</strong></td>
 						<td></td>
 						<td></td>
-						<td><h3>{{sumVariable()}}</h3></td>
+						<td><h3>{{sumVariable()}}%</h3></td>
 					</tr>
 				</tbody>
 			</table>
@@ -49,7 +59,13 @@
 						<td>{{cost.title}}</td>
 						<td>{{cost.description}}</td>
 						<td>{{cost.suggestion}}</td>
-						<td><input type="number" class="form-control" ng-model="cost.value" required ></td>
+						<td>
+							<div class="input-group">
+								<span class="input-group-addon">$</span>
+							<input type="number" class="form-control" ng-model="cost.value" required >
+						</div>
+
+						</td>
 					</tr>
 					<tr>
 						<td><strong>Total Variable Costs</strong></td>
@@ -122,6 +138,7 @@
 			
 
 		</div>
+		<p><small>*This worksheet is intended for educational purposes only. Contact one of our financing experts to get professional guidance regarding industry best practices and profit projection techniques.</small></p>
 	</div>
 </div>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
